@@ -1,34 +1,48 @@
 - name: dmitrijs sizovs
-  hosts: freiburg.de
+  hosts: [swisscom, usegalaxy.eu, freiburg.de]
   vars:
     origin: riga, latvia
-    previously: devops @ swisscom, 2023-2025
+    thesis: pulsar byoc
+    due: 2027-03-01
 
   tasks:
-    - name: Specialise in artificial intelligence
-      ansible.builtin.debug:
-        msg: "on paper"
-
-    - name: Write YAML
-      ansible.builtin.debug:
-        msg: "in practice"
-      tags: [always]
-
-    - name: Dispatch jobs to compute I do not own
+    - name: Learn devops
       ansible.builtin.include_role:
-        name: pulsar_byoc
-      loop: "{{ clouds | default(['anything with a cpu']) }}"
-      # bring your own compute. usegalaxy, from september.
+        name: swisscom
+      loop: [intern, devops engineer i, devops engineer ii]
+
+    - name: Connect nemo hpc to galaxy eu via pulsar
+      ansible.builtin.command: pulsar --relay --submit slurm
+      changed_when: true
+      # nobody had done this one before
+
+    - name: Upstream a pulsar bugfix
+      ansible.builtin.uri:
+        url: https://github.com/galaxyproject/pulsar/pull/460
+      # fix queued_cli slurm completion detection
+
+    - name: Hand ansible roles to usegalaxy
+      ansible.builtin.include_role:
+        name: "{{ item }}"
+      loop: [pulsar-relay-role, pulsar-nemo-login-role]
+
+    - name: Run computer vision at the edge
+      ansible.builtin.include_role:
+        name: novuss_vision
+      tags: [free-time]
+
+    - name: Collect ects
+      ansible.builtin.assert:
+        that: ects >= 90
+      vars:
+        ects: 60
 
     - name: Submit thesis
       ansible.builtin.command: submit byoc.pdf
-      args:
-        chdir: university of freiburg
       register: msc
-      # one year at university of latvia first.
-      # good grades. freiburg was the better plan.
+      until: msc is succeeded
+      # retrying until due
 
     - name: Graduate
       ansible.builtin.meta: end_play
       when: msc is succeeded
-      # early 2027

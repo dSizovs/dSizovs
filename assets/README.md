@@ -1,14 +1,13 @@
-`about.yml` is the source. `render.py` regenerates the SVGs from it:
+`about.yml` is the play. `render_run.py` draws it as an animated SVG of that
+play executing — SMIL timing, so it plays inside a README via a plain `<img>`.
 
 ```bash
-python3 render.py
+python3 render_run.py
 ```
 
-The PNGs are 2x screenshots of those SVGs, taken with headless Chrome so the
-card doesn't depend on the viewer having SF Mono or Menlo installed:
+Two knobs at the top of `render_run.py`:
 
-```bash
-chrome --headless=new --force-device-scale-factor=2 --window-size=669,986 \
-  --default-background-color=00000000 \
-  --screenshot=about-dark.png file://$PWD/about-dark.svg
-```
+- `THESIS_DUE` — the countdown target, printed as Ansible's retry line
+- `ECTS_DONE` / `ECTS_TOTAL` — bump to 90/90 once the credits are in
+
+`.github/workflows/refresh.yml` re-renders daily so the countdown stays honest.
