@@ -1,0 +1,34 @@
+- name: dmitrijs sizovs
+  hosts: freiburg.de
+  vars:
+    origin: riga, latvia
+    previously: devops @ swisscom, 2023-2025
+
+  tasks:
+    - name: Specialise in artificial intelligence
+      ansible.builtin.debug:
+        msg: "on paper"
+
+    - name: Write YAML
+      ansible.builtin.debug:
+        msg: "in practice"
+      tags: [always]
+
+    - name: Dispatch jobs to compute I do not own
+      ansible.builtin.include_role:
+        name: pulsar_byoc
+      loop: "{{ clouds | default(['anything with a cpu']) }}"
+      # bring your own compute. usegalaxy, from september.
+
+    - name: Submit thesis
+      ansible.builtin.command: submit byoc.pdf
+      args:
+        chdir: university of freiburg
+      register: msc
+      # one year at university of latvia first.
+      # good grades. freiburg was the better plan.
+
+    - name: Graduate
+      ansible.builtin.meta: end_play
+      when: msc is succeeded
+      # early 2027
