@@ -10,4 +10,5 @@ Two knobs at the top of `render_run.py`:
 - `THESIS_DUE` — the countdown target, printed as Ansible's retry line
 - `ECTS_DONE` / `ECTS_TOTAL` — bump to 90/90 once the credits are in
 
-`.github/workflows/refresh.yml` re-renders daily so the countdown stays honest.
+Nothing re-renders on its own — run the script again whenever the countdown has
+drifted far enough to bother you, and commit the two SVGs.
